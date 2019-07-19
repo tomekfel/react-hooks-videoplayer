@@ -25,17 +25,35 @@ const themeLight = {
   color: "#353535"
 };
 
-const WbnPlayer = props => {
+const WbnPlayer = ({ match, history, location }) => {
   const videos = JSON.parse(document.querySelector('[name="videos"]').value);
-  console.log(videos);
 
   const [state, setState] = useState({
     videos: videos.playlist,
     activeVideo: videos.playlist[0],
-    nightMode: false,
+    nightMode: true,
     playlistId: videos.playlistId,
     autoplay: false
   });
+
+  useEffect(() => {
+    const videoId = match.params.activeVideo;
+    if (videoId !== undefined) {
+      const newActiveVideo = state.videos.findIndex(
+        video => video.id === videoId
+      );
+      setState(prev => ({
+        ...prev,
+        activeVideo: prev.videos[newActiveVideo],
+        autoplay: location.autoplay
+      }));
+    } else {
+      history.push({
+        pathname: `/${state.activeVideo.id}`,
+        autoplay: false
+      });
+    }
+  }, [history, location.autoplay, match.params.activeVideo, state.activeVideo.id, state.videos]);
 
   const nightModeCallback = () => {};
 
