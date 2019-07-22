@@ -4,6 +4,7 @@ const StyledPlaylistitems = styled.div`
   padding: 0 20px 0 20px;
   overflow-y: auto;
   height: 28vw;
+  height: 100%; /* added to make it 100% of free space below the video*/
   max-height: 500px;
 
   /* width */
